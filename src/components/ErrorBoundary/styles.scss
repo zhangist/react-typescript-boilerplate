@@ -1,0 +1,20 @@
+.wrapper {
+  margin: 10px;
+  padding: 10px 0px;
+  text-align: center;
+}
+
+@mixin theme($theme) {
+  .wrapper {
+    color: map-get($theme, "wrapper_color");
+  }
+}
+
+:global(html),
+:global(html[theme="white"]) {
+  $theme: (
+    wrapper_color: #666,
+  );
+
+  @include theme($theme);
+}

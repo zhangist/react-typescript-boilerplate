@@ -1,0 +1,87 @@
+.wrapper {
+  width: 100%;
+  height: 48px;
+}
+
+.header {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  position: fixed;
+  display: flex;
+}
+
+.menuList {
+  display: flex;
+}
+
+.narrow {
+  flex: auto;
+  display: none;
+  .menuList {
+    flex-direction: column;
+    overflow: auto;
+    position: fixed;
+    top: 48px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+  }
+  @media (max-width: 850px) {
+    display: block;
+  }
+}
+
+.wide {
+  @media (max-width: 850px) {
+    display: none;
+  }
+  display: block;
+  .menuList {
+    flex-direction: row;
+  }
+}
+
+a.navLink {
+  padding: 0 10px;
+}
+
+@mixin theme($theme) {
+  .header {
+    background: map-get($theme, "header_background");
+  }
+
+  .narrow {
+    .menuList {
+      background: map-get($theme, "menuList_background");
+    }
+  }
+
+  a.navLink.active {
+    color: map-get($theme, "navLink_active_color");
+    background: map-get($theme, "navLink_active_background");
+  }
+}
+
+:global(html),
+:global(html[theme="white"]) {
+  $theme: (
+    header_background: #fff,
+    menuList_background: #fff,
+    navLink_active_color: #333,
+    navLink_active_background: #f5f5f5,
+  );
+
+  @include theme($theme);
+}
+
+:global(html[theme="black"]) {
+  $theme: (
+    header_background: #222,
+    menuList_background: #222,
+    navLink_active_color: #fff,
+    navLink_active_background: #333,
+  );
+
+  @include theme($theme);
+}

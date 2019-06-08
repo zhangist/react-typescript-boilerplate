@@ -1,0 +1,33 @@
+.footer {
+  margin: 10px;
+  padding: 10px 0px;
+  font-size: 12px;
+  border-width: 1px 0px 0px 0px;
+  border-style: solid;
+}
+
+@mixin theme($theme) {
+  .footer {
+    color: map-get($theme, "footer_color");
+    border-color: map-get($theme, "border_color");
+  }
+}
+
+:global(html),
+:global(html[theme="white"]) {
+  $theme: (
+    footer_color: #666,
+    border_color: #ddd,
+  );
+
+  @include theme($theme);
+}
+
+:global(html[theme="black"]) {
+  $theme: (
+    footer_color: #999,
+    border_color: #666,
+  );
+
+  @include theme($theme);
+}

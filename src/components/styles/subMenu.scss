@@ -1,0 +1,22 @@
+@mixin theme($theme) {
+  a.active {
+    color: map-get($theme, "navLink_active_color");
+  }
+}
+
+:global(html),
+:global(html[theme="white"]) {
+  $theme: (
+    navLink_active_color: #333,
+  );
+
+  @include theme($theme);
+}
+
+:global(html[theme="black"]) {
+  $theme: (
+    navLink_active_color: #ccc,
+  );
+
+  @include theme($theme);
+}

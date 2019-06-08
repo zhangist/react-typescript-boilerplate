@@ -1,0 +1,30 @@
+.code {
+  padding: 10px;
+  border-radius: 3px;
+}
+
+@mixin theme($theme) {
+  .code {
+    color: map-get($theme, "code_color");
+    background: map-get($theme, "code_background");
+  }
+}
+
+:global(html),
+:global(html[theme="white"]) {
+  $theme: (
+    code_color: #333,
+    code_background: #ccc,
+  );
+
+  @include theme($theme);
+}
+
+:global(html[theme="black"]) {
+  $theme: (
+    code_color: #fff,
+    code_background: #222,
+  );
+
+  @include theme($theme);
+}
