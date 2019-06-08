@@ -4,15 +4,15 @@
   "description": "The boilerplate of react with typescript.",
   "main": "index.js",
   "scripts": {
-    "lint": "tslint --project tsconfig.json",
+    "build": "rimraf dist && cross-env NODE_ENV=production webpack",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,html}\"",
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
-    "build": "rimraf dist && cross-env NODE_ENV=production webpack",
+    "lint": "tslint --project tsconfig.json",
     "analyze": "cross-env analyze=true npm run build"
   },
   "author": "zhangist",
   "repository": "https://github.com/zhangist/react-typescript-boilerplate",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "axios": "0.19.0",
     "i18next": "15.0.7",
