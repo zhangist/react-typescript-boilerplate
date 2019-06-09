@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { StatusCode } from "../enums/statusCode";
 import { AbortContext } from "../interfaces/abortContext";
-import { ApiResponse } from "../interfaces/apiResponse";
 import { RequestConfig } from "../interfaces/requestConfig";
+import { HttpError } from "../interfaces/httpError";
 
 /**
  * http service
@@ -30,29 +30,6 @@ export class HttpService {
   }
 
   /**
-   * api
-   */
-  public static async api<T = any>(
-    config: RequestConfig,
-    abortContext?: AbortContext,
-  ): Promise<T> {
-    try {
-      const data = await this.request<ApiResponse<T>>(config, abortContext);
-      return new Promise<T>(resolve => resolve(data.data));
-    } catch (error) {
-      let data = {};
-      if (error.response) {
-        data = error.response.data;
-      } else if (axios.isCancel(error)) {
-        data = { statusCode: StatusCode.Cancel, message: "cancel" };
-      } else {
-        data = { statusCode: StatusCode.Error, message: "error" };
-      }
-      return new Promise<T>((resolve, reject) => reject(data));
-    }
-  }
-
-  /**
    * json
    */
   public static async json<T = any>(
@@ -63,17 +40,16 @@ export class HttpService {
       const data = await this.request<T>(config, abortContext);
       return new Promise<T>(resolve => resolve(data));
     } catch (error) {
-      let data = {};
+      const data: HttpError = {
+        statusCode: StatusCode.Error,
+        message: "error",
+      };
       if (error.response) {
-        data = {
-          statusCode: error.response.status,
-          message: error.response.statusText,
-          ...error.response.data,
-        };
+        data.statusCode = error.response.status || data.statusCode;
+        data.message = error.response.statusText || data.message;
       } else if (axios.isCancel(error)) {
-        data = { statusCode: StatusCode.Cancel, message: "cancel" };
-      } else {
-        data = { statusCode: StatusCode.Error, message: "error" };
+        data.statusCode = StatusCode.Cancel;
+        data.message = "cancel";
       }
       return new Promise<T>((resolve, reject) => reject(data));
     }
