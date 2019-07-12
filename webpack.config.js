@@ -28,7 +28,7 @@ const config = {
     rules: [
       {
         test: /\.tsx?$/,
-        loaders: ["babel-loader", "awesome-typescript-loader"],
+        loaders: ["babel-loader", "ts-loader"],
         include: [path.resolve(__dirname, "src")],
         exclude: [path.resolve(__dirname, "src/i18n")],
       },
