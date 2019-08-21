@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 export default (props: { text?: string }) => (
   <div style={{ padding: "10px" }}>

@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react";
 
-export default class PageA extends React.Component {
-  public render() {
-    return <div>default</div>;
-  }
-}
+const PageA: React.FC = () => {
+  return <div>default</div>;
+};
+
+export default PageA;

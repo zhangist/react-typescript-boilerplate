@@ -5,7 +5,8 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 
-process.env.NODE_ENV = process.env.NODE_ENV || "production";
+process.env.NODE_ENV =
+  process.env.NODE_ENV === "production" ? "production" : "development";
 
 const config = {
   mode: process.env.NODE_ENV,
@@ -56,10 +57,10 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: "./public/index.html",
-      favicon: "./public/favicon.ico",
+      template: "./src/index.html",
+      favicon: "./src/favicon.ico",
     }),
-    new CopyWebpackPlugin([{ from: "./public/i18n", to: "i18n" }]),
+    new CopyWebpackPlugin([{ from: "./src/i18n", to: "static/i18n" }]),
   ],
   optimization: {
     runtimeChunk: true,
@@ -72,6 +73,7 @@ const config = {
         target: "http://localhost:3000",
       },
     },
+    host: "0.0.0.0",
     port: 9000,
     hot: true,
   },

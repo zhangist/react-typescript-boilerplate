@@ -1,4 +1,8 @@
-import { Profile } from "../../interfaces/profile";
+export interface Profile {
+  name: string;
+  age: number;
+  hobbies: string[];
+}
 
 export const profile: Profile = {
   name: "zard",

@@ -16,7 +16,8 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es5"
+    "target": "es5",
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

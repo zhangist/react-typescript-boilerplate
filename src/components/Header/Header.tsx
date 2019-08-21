@@ -1,63 +1,22 @@
-import * as React from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { I18nNamespace } from "../../enums/i18nNamespace";
 import styles from "./styles.scss";
 
-export interface HeaderProps extends WithTranslation {}
-export interface HeaderState {
+interface HeaderState {
   isMenuListOpen: boolean;
 }
 
-class Header extends React.Component<HeaderProps, HeaderState> {
-  private bodyOverflow = document.body.style.overflow;
+const bodyOverflow = document.body.style.overflow;
 
-  public constructor(props: HeaderProps) {
-    super(props);
-    this.state = {
-      isMenuListOpen: false,
-    };
-  }
+const Header: React.FC = () => {
+  const [t] = useTranslation([I18nNamespace.App]);
+  const [state, setState] = React.useState<HeaderState>({
+    isMenuListOpen: false,
+  });
 
-  public render() {
-    const { t } = this.props;
-    const { isMenuListOpen } = this.state;
-    return (
-      <div className={styles.wrapper}>
-        <div className={styles.header}>
-          <NavLink
-            to="/"
-            exact={true}
-            className={styles.navLink}
-            activeClassName={styles.active}
-          >
-            Home
-          </NavLink>
-          <div className={styles.narrow}>
-            <div style={{ height: "100%", display: "flex" }}>
-              <div style={{ flex: "auto" }} />
-              <div>
-                {isMenuListOpen ? (
-                  <button onClick={this.closeMenu}>{t("Close Menu")}</button>
-                ) : (
-                  <button onClick={this.openMenu}>{t("Open Menu")}</button>
-                )}
-              </div>
-              <div style={{ width: "10px" }} />
-            </div>
-            {isMenuListOpen ? this.renderMenuList() : null}
-          </div>
-          <div className={styles.wide}>{this.renderMenuList()}</div>
-        </div>
-      </div>
-    );
-  }
-
-  /**
-   * render menu list
-   */
-  private renderMenuList = () => {
-    const { t } = this.props;
+  const renderMenuList = () => {
     return (
       <div className={styles.menuList}>
         <NavLink
@@ -113,21 +72,45 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     );
   };
 
-  /**
-   * open menu
-   */
-  private openMenu = () => {
-    this.setState({ isMenuListOpen: true });
+  const openMenu = () => {
+    setState(prevState => ({ ...prevState, isMenuListOpen: true }));
     document.body.style.overflow = "hidden";
   };
 
-  /**
-   * close menu
-   */
-  private closeMenu = () => {
-    document.body.style.overflow = this.bodyOverflow;
-    this.setState({ isMenuListOpen: false });
+  const closeMenu = () => {
+    document.body.style.overflow = bodyOverflow;
+    setState(prevState => ({ ...prevState, isMenuListOpen: false }));
   };
-}
 
-export default withTranslation(I18nNamespace.App)(Header);
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.header}>
+        <NavLink
+          to="/"
+          exact={true}
+          className={styles.navLink}
+          activeClassName={styles.active}
+        >
+          Home
+        </NavLink>
+        <div className={styles.narrow}>
+          <div style={{ height: "100%", display: "flex" }}>
+            <div style={{ flex: "auto" }} />
+            <div>
+              {state.isMenuListOpen ? (
+                <button onClick={closeMenu}>{t("Close Menu")}</button>
+              ) : (
+                <button onClick={openMenu}>{t("Open Menu")}</button>
+              )}
+            </div>
+            <div style={{ width: "10px" }} />
+          </div>
+          {state.isMenuListOpen ? renderMenuList() : null}
+        </div>
+        <div className={styles.wide}>{renderMenuList()}</div>
+      </div>
+    </div>
+  );
+};
+
+export default Header;

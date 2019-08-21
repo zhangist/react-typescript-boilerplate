@@ -1,71 +1,56 @@
-import * as React from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-import { HttpService } from "../../services/httpService";
-import { AbortContext } from "../../interfaces/abortContext";
+import { json } from "../../common/axios";
 import subMenuStyles from "../../components/styles/subMenu.scss";
 
-export interface PageProps {}
-export interface PageState {
+const getDataId = Symbol();
+
+interface PageState {
   data: object;
   error: object;
 }
 
-class Page extends React.Component<PageProps, PageState> {
-  private abortContext: AbortContext = {};
-  public constructor(props: PageProps) {
-    super(props);
-    this.state = {
-      data: {},
-      error: {},
-    };
-  }
+const Page: React.FC = () => {
+  const [state, setState] = React.useState<PageState>({
+    data: {},
+    error: {},
+  });
 
-  public render() {
-    const { data, error } = this.state;
-    return (
-      <div>
-        <div style={{ padding: "10px" }}>
-          <NavLink
-            to="/http-demo"
-            exact={true}
-            activeClassName={subMenuStyles.active}
-          >
-            Default
-          </NavLink>
-        </div>
-        <div style={{ padding: "10px" }}>
-          <button onClick={this.getData}>get data</button>
-          <span> / </span>
-          <button onClick={this.abort}>abort</button>
-          <span> / </span>
-          <button onClick={this.clear}>clear</button>
-        </div>
-        <div style={{ padding: "10px" }}>data:{JSON.stringify(data)}</div>
-        <div style={{ padding: "10px" }}>error:{JSON.stringify(error)}</div>
-      </div>
-    );
-  }
-
-  private clear = async () => {
-    this.setState({ data: {}, error: {} });
+  const clear = async () => {
+    setState(prevState => ({ ...prevState, data: {}, error: {} }));
   };
 
-  private getData = async () => {
+  const getData = async () => {
     try {
-      const url = `/i18n/app/zh-cn.json`;
-      const data = await HttpService.json({ url }, this.abortContext);
-      this.setState({ data });
+      const url = `/static/i18n/zh-CN/app.json`;
+      const data = await json({ url, cancelId: getDataId });
+      setState(prevState => ({ ...prevState, data }));
     } catch (error) {
-      this.setState({ error });
+      console.error(error);
+      setState(prevState => ({ ...prevState, error }));
     }
   };
 
-  private abort = () => {
-    if (typeof this.abortContext.abort === "function") {
-      this.abortContext.abort();
-      this.abortContext.abort = undefined;
-    }
-  };
-}
+  return (
+    <div>
+      <div style={{ padding: "10px" }}>
+        <NavLink
+          to="/http-demo"
+          exact={true}
+          activeClassName={subMenuStyles.active}
+        >
+          Default
+        </NavLink>
+      </div>
+      <div style={{ padding: "10px" }}>
+        <button onClick={getData}>get data</button>
+        <span> / </span>
+        <button onClick={clear}>clear</button>
+      </div>
+      <div style={{ padding: "10px" }}>data:{JSON.stringify(state.data)}</div>
+      <div style={{ padding: "10px" }}>error:{JSON.stringify(state.error)}</div>
+    </div>
+  );
+};
 
 export default Page;
