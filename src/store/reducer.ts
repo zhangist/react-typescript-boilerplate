@@ -6,7 +6,7 @@ export interface State {
 }
 
 export const getInitialState: () => State = () => ({
-  title: "React-ts-boilerplate",
+  title: "React-typescript-boilerplate",
 });
 
 export function reducer(state = getInitialState(), action: Actions): State {

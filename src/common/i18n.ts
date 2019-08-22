@@ -14,8 +14,8 @@ i18n.init({
   debug: process.env.NODE_ENV === "development",
   whitelist: [I18nLanguage.ZH_CN, I18nLanguage.EN],
   fallbackLng: I18nLanguage.EN,
-  ns: [I18nNamespace.App],
-  defaultNS: I18nNamespace.App,
+  ns: [I18nNamespace.Common],
+  defaultNS: I18nNamespace.Common,
   backend: {
     loadPath: "/static/i18n/{{lng}}/{{ns}}.json",
   },

@@ -11,7 +11,7 @@ interface HeaderState {
 const bodyOverflow = document.body.style.overflow;
 
 const Header: React.FC = () => {
-  const [t] = useTranslation([I18nNamespace.App]);
+  const [t] = useTranslation([I18nNamespace.Common]);
   const [state, setState] = React.useState<HeaderState>({
     isMenuListOpen: false,
   });

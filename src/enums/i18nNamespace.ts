@@ -2,6 +2,6 @@
  * i18n namespace
  */
 export enum I18nNamespace {
-  App = "app",
+  Common = "common",
   I18nDemo = "i18n-demo",
 }

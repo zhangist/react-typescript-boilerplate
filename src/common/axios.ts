@@ -33,6 +33,10 @@ export async function request<T = any, R = AxiosResponse<T>>(
     return Promise.resolve(r);
   } catch (error) {
     return Promise.reject(error);
+  } finally {
+    if (typeof cancelId !== "undefined" && requestCancelMap.has(cancelId)) {
+      requestCancelMap.delete(cancelId);
+    }
   }
 }
 
