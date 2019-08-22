@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { I18nNamespace } from "../../enums/i18nNamespace";
 import { json } from "../../common/axios";
 import subMenuStyles from "../../components/styles/subMenu.scss";
 
@@ -22,7 +23,7 @@ const Page: React.FC = () => {
 
   const getData = async () => {
     try {
-      const url = `/static/i18n/zh-CN/app.json`;
+      const url = `/static/i18n/zh-CN/${I18nNamespace.Common}.json`;
       const data = await json({ url, cancelId: getDataId });
       setState(prevState => ({ ...prevState, data }));
     } catch (error) {
