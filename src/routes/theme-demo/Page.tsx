@@ -22,11 +22,11 @@ const Page: React.FC = () => {
         </NavLink>
       </div>
       <div style={{ padding: "10px" }}>
-        <a href="javascript:void(0);" onClick={() => changeTheme(Theme.White)}>
+        <a href="#" onClick={() => changeTheme(Theme.White)}>
           white
         </a>
         <span> / </span>
-        <a href="javascript:void(0);" onClick={() => changeTheme(Theme.Black)}>
+        <a href="#" onClick={() => changeTheme(Theme.Black)}>
           black
         </a>
       </div>
