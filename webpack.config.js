@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 
@@ -41,7 +41,7 @@ const config = {
             loader: "css-loader",
             options: { modules: true },
           },
-          "postcss-loader",
+          ...(process.env.NODE_ENV === "production" ? ["postcss-loader"] : []),
           "sass-loader",
         ],
         exclude: [path.resolve(__dirname, "node_modules")],
@@ -60,7 +60,6 @@ const config = {
       template: "./src/index.html",
       favicon: "./src/favicon.ico",
     }),
-    new CopyWebpackPlugin([{ from: "./src/i18n", to: "static/i18n" }]),
   ],
   optimization: {
     runtimeChunk: true,
@@ -80,7 +79,21 @@ const config = {
 };
 
 // webpack dev server
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
+  config.optimization = config.optimization || {};
+  config.optimization.minimizer = config.optimization.minimizer || [];
+  config.optimization.minimizer.push(
+    new TerserPlugin({
+      parallel: true,
+      terserOptions: {
+        compress: {
+          drop_debugger: true,
+          pure_funcs: ["console.log"],
+        },
+      },
+    }),
+  );
+} else {
   config.entry.main.unshift("webpack-dev-server/client?http://localhost:9000/");
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
