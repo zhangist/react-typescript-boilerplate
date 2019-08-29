@@ -1,5 +1,7 @@
 import { AxiosRequestConfig } from "axios";
+import { AbortContext } from "./abortContext";
 
 export interface RequestConfig extends AxiosRequestConfig {
-  cancelId?: symbol;
+  requestId?: symbol;
+  abortContext?: AbortContext;
 }

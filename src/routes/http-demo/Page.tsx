@@ -1,35 +1,47 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { I18nNamespace } from "../../enums/i18nNamespace";
 import { json } from "../../common/axios";
 import subMenuStyles from "../../components/styles/subMenu.scss";
+import { AbortContext } from "../../interfaces/abortContext";
 
-const getDataId = Symbol();
+const getDataRequestId = Symbol();
+const getDataAbortContext: AbortContext = {};
 
-interface PageState {
-  data: object;
-  error: object;
+interface GetDataConfig {
+  requestId?: symbol;
+  abortContext?: AbortContext;
 }
 
 const Page: React.FC = () => {
-  const [state, setState] = React.useState<PageState>({
-    data: {},
-    error: {},
-  });
+  const [data, setData] = React.useState<object>({});
+  const [error, setError] = React.useState<object>({});
 
   const clear = async () => {
-    setState(prevState => ({ ...prevState, data: {}, error: {} }));
+    setData({});
+    setError({});
   };
 
-  const getData = async () => {
+  const getData = async (config?: GetDataConfig) => {
     try {
-      const url = `/static/i18n/zh-CN/${I18nNamespace.Common}.json`;
-      const data = await json({ url, cancelId: getDataId });
-      setState(prevState => ({ ...prevState, data }));
+      const url = `files/data.json`;
+      const jsonData = await json({ url, ...config });
+      setData(jsonData);
     } catch (error) {
       console.error(error);
-      setState(prevState => ({ ...prevState, error }));
+      setError(error);
     }
+  };
+
+  const getDataWithRequestId = async () => {
+    getData({ requestId: getDataRequestId });
+  };
+
+  const getDataWithCancel = async () => {
+    if (typeof getDataAbortContext.abort !== "undefined") {
+      getDataAbortContext.abort();
+    }
+
+    getData({ abortContext: getDataAbortContext });
   };
 
   return (
@@ -44,12 +56,14 @@ const Page: React.FC = () => {
         </NavLink>
       </div>
       <div style={{ padding: "10px" }}>
-        <button onClick={getData}>get data</button>
+        <button onClick={getDataWithRequestId}>get data with request id</button>
+        <span> / </span>
+        <button onClick={getDataWithCancel}>get data with abort context</button>
         <span> / </span>
         <button onClick={clear}>clear</button>
       </div>
-      <div style={{ padding: "10px" }}>data:{JSON.stringify(state.data)}</div>
-      <div style={{ padding: "10px" }}>error:{JSON.stringify(state.error)}</div>
+      <div style={{ padding: "10px" }}>data:{JSON.stringify(data)}</div>
+      <div style={{ padding: "10px" }}>error:{JSON.stringify(error)}</div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, Canceler } from "axios";
 import { RequestConfig } from "../interfaces/requestConfig";
 
-const requestCancelMap = new Map<symbol, Canceler>();
+const requestMap = new Map<symbol, Canceler>();
 
 /**
  * request
@@ -9,21 +9,35 @@ const requestCancelMap = new Map<symbol, Canceler>();
 export async function request<T = any, R = AxiosResponse<T>>(
   config: RequestConfig,
 ): Promise<R> {
-  const { cancelId, ...restConfig } = config;
+  const { requestId, abortContext, ...restConfig } = config;
 
-  if (typeof cancelId !== "undefined") {
-    if (requestCancelMap.has(cancelId)) {
-      const c = requestCancelMap.get(cancelId);
+  if (typeof requestId !== "undefined" || typeof abortContext !== "undefined") {
+    if (typeof requestId !== "undefined") {
+      if (requestMap.has(requestId)) {
+        const c = requestMap.get(requestId);
 
-      if (typeof c !== "undefined") {
-        c("cancel");
+        if (typeof c !== "undefined") {
+          c("cancel");
+        }
+
+        requestMap.delete(requestId);
       }
-
-      requestCancelMap.delete(cancelId);
     }
 
     restConfig.cancelToken = new axios.CancelToken(cancel => {
-      requestCancelMap.set(cancelId, cancel);
+      if (typeof requestId !== "undefined") {
+        requestMap.set(requestId, cancel);
+      }
+
+      if (typeof abortContext !== "undefined") {
+        abortContext.abort = () => {
+          if (typeof requestId !== "undefined" && requestMap.has(requestId)) {
+            requestMap.delete(requestId);
+          }
+
+          cancel("cancel");
+        };
+      }
     });
   }
 
@@ -33,10 +47,6 @@ export async function request<T = any, R = AxiosResponse<T>>(
     return Promise.resolve(r);
   } catch (error) {
     return Promise.reject(error);
-  } finally {
-    if (typeof cancelId !== "undefined" && requestCancelMap.has(cancelId)) {
-      requestCancelMap.delete(cancelId);
-    }
   }
 }
 

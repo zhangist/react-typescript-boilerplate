@@ -4,8 +4,6 @@ import { initReactI18next } from "react-i18next";
 import { I18nNamespace } from "../enums/i18nNamespace";
 import { I18nLanguage } from "../enums/i18nLanguage";
 
-console.log("console.log", Object.values(I18nLanguage));
-
 i18n
   .use({
     type: "backend",
