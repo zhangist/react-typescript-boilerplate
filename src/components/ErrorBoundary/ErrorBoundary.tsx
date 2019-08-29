@@ -33,11 +33,12 @@ class ErrorBoundary extends React.Component<
           <div>Something went wrong.</div>
           <div>
             <button onClick={this.refresh}>Refresh</button>
-            <button onClick={this.backToHomePage}>Back to home page</button>
+            <button onClick={this.back}>Back</button>
           </div>
         </div>
       );
     }
+
     return this.props.children;
   }
 
@@ -49,10 +50,10 @@ class ErrorBoundary extends React.Component<
   };
 
   /**
-   * backToHomePage
+   * back
    */
-  private backToHomePage = () => {
-    window.location.href = "/";
+  private back = () => {
+    window.history.back();
   };
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import ErrorBoundary from "../../components/ErrorBoundary";
 import Loading from "../../components/Loading";
 
 const Component = React.lazy(() =>
@@ -7,9 +8,11 @@ const Component = React.lazy(() =>
 
 const Loader: React.FC = () => {
   return (
-    <React.Suspense fallback={<Loading />}>
-      <Component />
-    </React.Suspense>
+    <ErrorBoundary>
+      <React.Suspense fallback={<Loading />}>
+        <Component />
+      </React.Suspense>
+    </ErrorBoundary>
   );
 };
 
