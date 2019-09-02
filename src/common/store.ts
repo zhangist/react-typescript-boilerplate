@@ -8,12 +8,13 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import { ReducerKey } from "../enums/reducerKey";
-import { reducer } from "../store/reducer";
 
-const reducers: ReducersMapObject = {};
+const reducers: ReducersMapObject = {
+  __: () => ({}),
+};
 
 export const store = createStore(
-  reducer,
+  combineReducers(reducers),
   undefined,
   compose(applyMiddleware(thunk)),
 );

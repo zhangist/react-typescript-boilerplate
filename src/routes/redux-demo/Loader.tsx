@@ -1,5 +1,5 @@
 import React from "react";
-import Loading from "../../components/Loading";
+import { ErrorBoundary, Loading } from "../../components/app";
 
 const Component = React.lazy(() =>
   import(/* webpackChunkName: "route_redux-demo" */ "./Page"),
@@ -7,9 +7,11 @@ const Component = React.lazy(() =>
 
 const Loader: React.FC = () => {
   return (
-    <React.Suspense fallback={<Loading />}>
-      <Component />
-    </React.Suspense>
+    <ErrorBoundary>
+      <React.Suspense fallback={<Loading />}>
+        <Component />
+      </React.Suspense>
+    </ErrorBoundary>
   );
 };
 

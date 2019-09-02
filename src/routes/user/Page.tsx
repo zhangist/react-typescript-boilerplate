@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Route, Switch } from "react-router-dom";
-import NotFound from "../../components/NotFound";
+import { NotFound } from "../../components/app";
 import subMenuStyles from "../../components/styles/subMenu.scss";
 import DefaultLoader from "./routes/default/Loader";
 import ProfileLoader from "./routes/profile/Loader";

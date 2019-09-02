@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import { I18nNamespace } from "../../enums/i18nNamespace";
+import { I18nNamespace } from "../../../enums/i18nNamespace";
 import styles from "./styles.scss";
 
 interface HeaderState {

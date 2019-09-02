@@ -1,6 +1,5 @@
 import React from "react";
-import ErrorBoundary from "../../components/ErrorBoundary";
-import Loading from "../../components/Loading";
+import { ErrorBoundary, Loading } from "../../components/app";
 
 const Component = React.lazy(() =>
   import(/* webpackChunkName: "route_i18n-demo" */ "./Page"),
