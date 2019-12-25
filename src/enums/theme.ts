@@ -1,5 +1,5 @@
 /**
- * theme
+ * Theme
  */
 export enum Theme {
   White = "white",

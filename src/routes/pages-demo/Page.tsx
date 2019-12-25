@@ -1,9 +1,9 @@
 import React from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
+import { NavLink, Route, Switch } from "react-router-dom";
 import subMenuStyles from "../../components/styles/subMenu.scss";
-import DefaultLoader from "./routes/default/Loader";
 import ALoader from "./routes/a/Loader";
 import BLoader from "./routes/b/Loader";
+import DefaultLoader from "./routes/default/Loader";
 
 const Page: React.FC = () => {
   return (

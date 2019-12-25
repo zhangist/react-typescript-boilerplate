@@ -1,14 +1,14 @@
 import React from "react";
-import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { ReducerKey } from "../../enums/reducerKey";
+import { Dispatch } from "redux";
 import { injectReducer } from "../../common/store";
 import subMenuStyles from "../../components/styles/subMenu.scss";
-import { Profile } from "./store/states/profile";
-import { reducer, State } from "./store/reducer";
-import { updateCounter } from "./store/actions";
+import { ReducerKey } from "../../enums/reducerKey";
 import ProfileComponent from "./components/Profile";
+import { updateCounter } from "./store/actions";
+import { reducer, State } from "./store/reducer";
+import { Profile } from "./store/states/profile";
 
 injectReducer(ReducerKey.ReduxDemo, reducer);
 
@@ -89,7 +89,4 @@ const Page: React.FC<PageProps> = props => {
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Page);
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

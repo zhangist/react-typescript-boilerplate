@@ -1,5 +1,5 @@
 /**
- * status code
+ * Status Code
  */
 export enum StatusCode {
   Success = 0,

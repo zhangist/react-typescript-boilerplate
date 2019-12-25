@@ -1,5 +1,5 @@
 /**
- * i18n namespace
+ * I18n Namespace
  */
 export enum I18nNamespace {
   Common = "common",

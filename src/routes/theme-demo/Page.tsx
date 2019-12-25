@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Theme } from "../../enums/theme";
 import subMenuStyles from "../../components/styles/subMenu.scss";
+import { Theme } from "../../enums/theme";
 
 const Page: React.FC = () => {
   const changeTheme = (theme: Theme) => {

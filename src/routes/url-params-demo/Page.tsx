@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Switch, Route } from "react-router-dom";
+import { NavLink, Route, Switch } from "react-router-dom";
 import subMenuStyles from "../../components/styles/subMenu.scss";
 import DefaultLoader from "./routes/default/Loader";
 

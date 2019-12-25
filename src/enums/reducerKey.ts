@@ -1,5 +1,5 @@
 /**
- * reducer key
+ * Reducer Key
  */
 export enum ReducerKey {
   App = "app",

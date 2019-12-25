@@ -1,5 +1,5 @@
 /**
- * action type
+ * Action Type
  */
 export enum ActionType {
   // app
